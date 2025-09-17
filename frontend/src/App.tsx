@@ -1,13 +1,14 @@
 import React from 'react';
+import AppRoutes from './routes/AppRoutes';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <div>
-      <h1>RAGxperiment.ai</h1>
-      <p>Welcome to your AI-powered knowledge assistant!</p>
+    <div className="min-h-screen bg-gray-50">
+      <AppRoutes />
+      <Toaster position="top-right" />
     </div>
   );
 }
 
 export default App;
-
