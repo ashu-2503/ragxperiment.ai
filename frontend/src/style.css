@@ -1,4 +1,4 @@
-/* General Layout */
+/* General Layout
 .layout {
   display: flex;
   height: 100vh;
@@ -12,7 +12,7 @@
 }
 
 /* Navbar */
-.navbar {
+/* .navbar {
   background-color: #ffffff;
   padding: 1rem;
   display: flex;
@@ -31,7 +31,7 @@
 }
 
 /* Sidebar */
-.sidebar {
+/* .sidebar {
   width: 250px;
   background-color: #ffffff;
   padding: 1rem;
@@ -53,13 +53,13 @@
 }
 
 /* Content */
-.content {
+/* .content {
   padding: 1rem;
   flex-grow: 1;
   overflow: auto;
-}
+} */
 /* Chat input wrapper fixed at bottom center */
-.chat-input-wrapper {
+/* .chat-input-wrapper {
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -72,20 +72,20 @@
   border-radius: 9999px;
   padding: 5px 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+} */
 
 /* Text input */
-.chat-input {
+/* .chat-input {
   flex: 1;
   border: none;
   outline: none;
   padding: 10px 15px;
   border-radius: 9999px;
   font-size: 16px;
-}
+} */
 
 /* Send button */
-.chat-send-btn {
+/* .chat-send-btn {
   background-color: #3b82f6;
   color: white;
   border: none;
@@ -95,9 +95,9 @@
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.2s;
-}
+} */
 
-.chat-send-btn:hover {
+/* .chat-send-btn:hover {
   background-color: #2563eb;
 }
 .auth-container {
@@ -106,9 +106,9 @@
   align-items: center;
   min-height: 100vh;
   background-color: #f5f5f5;
-}
+} */
 
-.auth-form {
+/* .auth-form {
   background-color: white;
   padding: 32px;
   border-radius: 8px;
@@ -125,11 +125,11 @@
 
 .auth-label {
   display: block;
-  margin-bottom: 16px;
-  font-weight: 500;
-}
+  margin-bottom: 16px; */
+  /* font-weight: 500;
+} */ */
 
-.auth-input {
+/* .auth-input {
   width: 100%;
   padding: 8px 12px;
   margin-top: 8px;
@@ -146,9 +146,9 @@
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
-}
+} */
 
-.login-button {
+/* .login-button {
   background-color: #3490dc;
 }
 
@@ -164,4 +164,4 @@
 .auth-footer a {
   color: #3490dc;
   text-decoration: none;
-}
+} */ */ */
