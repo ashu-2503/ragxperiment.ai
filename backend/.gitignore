@@ -1,0 +1,22 @@
+# Python / backend specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+.env
+.env.local
+
+# Poetry
+poetry.lock
+
+# Logs
+logs/
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
