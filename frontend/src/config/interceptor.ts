@@ -49,3 +49,17 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response?.status === 500) {
+            console.error("Internal Server Error! Please try again later.");
+            alert("Something went wrong on the server. Please try again later.");
+            
+        }
+        return Promise.reject(error);
+    }
+);
