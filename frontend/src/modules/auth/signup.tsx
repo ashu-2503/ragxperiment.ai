@@ -19,7 +19,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
       <form
         onSubmit={handleSignup}
         className="p-4 border rounded shadow-sm bg-white"
-        style={{ minWidth: "320px", maxWidth: "400px", width: "100%" }}
+        style={{ minWidth: "320px", maxWidth: "400px", width: "400px" }}
       >
         <h2 className="mb-4 text-center">Sign Up</h2>
 
