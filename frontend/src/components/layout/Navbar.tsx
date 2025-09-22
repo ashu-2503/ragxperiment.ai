@@ -1,12 +1,10 @@
-import React from 'react';
-import '../../style.css';
-
+import React from "react";
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="navbar">
-      <h1>Functional Safety AI Tool</h1>
-      <button className="profile-btn">Profile</button>
+    <nav className="navbar navbar-light bg-white border-bottom px-3 d-flex justify-content-between">
+      <h5 className="mb-0">Functional Safety AI Tool</h5>
+      <button className="btn btn-outline-primary btn-sm">Profile</button>
     </nav>
   );
 };

@@ -1,14 +1,18 @@
-import React from 'react';
-import '../../style.css';
-
+import React from "react";
 
 const Sidebar: React.FC = () => {
   return (
-    <aside className="sidebar">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Conversations</a></li>
-        <li><a href="#">Settings</a></li>
+    <aside className="bg-dark text-white p-3" style={{ width: "250px" }}>
+      <ul className="nav flex-column">
+        <li className="nav-item mb-2">
+          <a href="#" className="nav-link text-white">Home</a>
+        </li>
+        <li className="nav-item mb-2">
+          <a href="#" className="nav-link text-white">Conversations</a>
+        </li>
+        <li className="nav-item mb-2">
+          <a href="#" className="nav-link text-white">Settings</a>
+        </li>
       </ul>
     </aside>
   );
