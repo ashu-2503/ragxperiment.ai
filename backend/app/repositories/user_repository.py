@@ -11,8 +11,17 @@ class UserRepository:
     def get_by_email(self, email: str):
         return self.db.query(User).filter(User.email == email).first()
 
-    def create(self, email: str, hashed_password: str):
-        user = User(email=email, hashed_password=hashed_password)
+    def get_by_name(self, name: str):
+        return self.db.query(User).filter(User.name == name).first()
+
+    def get_by_identifier(self, identifier: str):
+        """Return user by name or email."""
+        return self.db.query(User).filter(
+            (User.name == identifier) | (User.email == identifier)
+        ).first()
+
+    def create(self, name: str, email: str, hashed_password: str):
+        user = User(name=name, email=email, hashed_password=hashed_password)
         try:
             self.db.add(user)
             self.db.commit()
@@ -22,5 +31,5 @@ class UserRepository:
             self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already exists"
+                detail="name or Email already exists"
             )
