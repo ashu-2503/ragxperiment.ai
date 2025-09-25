@@ -6,7 +6,7 @@ import LayoutWrapper from "./components/layout/LayoutWrapper";
 import ChatInput from "./components/common/Input";
 import Login from "./modules/auth/login";
 import Signup from "./modules/auth/signup";
-import "./style.css";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
