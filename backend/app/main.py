@@ -7,31 +7,29 @@ from app.core.config import settings
 from app.core.logging import setup_logging
 from app.core.database import init_db
 from app.core.global_exceptions import register_exception_handlers
+from app.api.upload_doc.file_upload_route import file_upload_router
 
 # -------------------------
-# Best Practice:
-# Initialize logging as first step
+# Initialize logging
 # -------------------------
 setup_logging()
 
 # -------------------------
-# Lifespan context manager replaces @app.on_event
+# Lifespan context manager
 # -------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup logic
-    init_db()  # create tables
+    init_db()  # create tables on startup
     yield
-    # Shutdown logic can be added here if needed
 
 # -------------------------
-# FastAPI app
+# FastAPI app instance
 # -------------------------
 app = FastAPI(
     title=settings.APP_NAME,
     description="Backend API for RagXperiment",
     version=settings.VERSION,
-    lifespan=lifespan,  # uses lifespan context manager
+    lifespan=lifespan,
 )
 
 # -------------------------
@@ -46,12 +44,13 @@ app.add_middleware(
 )
 
 # -------------------------
-# Include routers (centralized prefix)
+# Include routers
 # -------------------------
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
+app.include_router(file_upload_router, prefix="/files", tags=["files"])
 
 # -------------------------
-# Health check endpoint
+# Health check
 # -------------------------
 @app.get("/health", tags=["health"])
 def health_check():

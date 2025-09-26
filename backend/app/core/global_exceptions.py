@@ -1,9 +1,8 @@
-from fastapi import Request
+from fastapi import Request, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from loguru import logger
-from fastapi import FastAPI
 
 def register_exception_handlers(app: FastAPI):
     """
@@ -25,11 +24,24 @@ def register_exception_handlers(app: FastAPI):
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
         """
         Handles request body/parameter validation errors.
+        Converts non-serializable inputs (like UploadFile) to string.
         """
         logger.error(f"Validation Error: {exc.errors()}")
+        errors = []
+        for e in exc.errors():
+            errors.append({
+                "loc": e.get("loc"),
+                "msg": e.get("msg"),
+                "type": e.get("type"),
+                "input": str(e.get("input")) if e.get("input") else None
+            })
         return JSONResponse(
             status_code=422,
-            content={"success": False, "message": "Validation error", "errors": exc.errors()},
+            content={
+                "success": False,
+                "message": "Validation error",
+                "errors": errors
+            }
         )
 
     @app.exception_handler(Exception)

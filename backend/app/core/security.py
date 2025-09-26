@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from jose import jwt
 from typing import Optional
 from app.core.config import settings
+from typing import Dict, Any, Optional
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 ALGORITHM = "HS256"
@@ -20,3 +21,14 @@ def create_access_token(subject: str | int, expires_delta: Optional[timedelta] =
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES))
     payload = {"sub": str(subject), "exp": expire}
     return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=ALGORITHM)
+
+# JWT token decoding
+def decode_access_token(token: str) -> Dict[str, Any]:
+    try:
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        subject: str = payload.get("sub")
+        if subject is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token missing subject")
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
