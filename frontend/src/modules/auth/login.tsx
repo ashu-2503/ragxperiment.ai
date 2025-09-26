@@ -1,18 +1,32 @@
 import React, { useState } from "react";
+import { authService } from "../../api/auth.service";
+import { useNavigate } from "react-router-dom";
+import { ToasterService } from "../../components/common/Toastr";
 
-interface LoginProps {
-  onLogin: () => void;
-  onSwitchToSignup: () => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToSignup }) => {
+const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Logging in with:", { email, password });
-    onLogin();
+    setLoading(true);
+
+    try {
+      const data = await authService.login({ email, password });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      ToasterService.typeSuccess("Login successful!");
+      navigate("/dashboard");
+    } catch (err: any) {
+      const msg = err?.error || "Login failed";
+      ToasterService.typeError(msg);
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,9 +42,10 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToSignup }) => {
           <label className="form-label">Email</label>
           <input
             type="email"
-            className="form-control"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="form-control"
             required
           />
         </div>
@@ -39,23 +54,28 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToSignup }) => {
           <label className="form-label">Password</label>
           <input
             type="password"
-            className="form-control"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="form-control"
             required
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100 mb-3">
-          Login
+        <button
+          type="submit"
+          className="btn btn-primary w-100 mb-3"
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="text-center">
+        <p className="text-center mt-4">
           Don’t have an account?{" "}
           <button
             type="button"
-            className="btn btn-link p-0"
-            onClick={onSwitchToSignup}
+            className="text-blue-600 hover:underline"
+            onClick={() => navigate("/signup")}
           >
             Sign up
           </button>
@@ -66,3 +86,4 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToSignup }) => {
 };
 
 export default Login;
+

@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
 
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173"]
 
     class Config:
         env_file = ".env"

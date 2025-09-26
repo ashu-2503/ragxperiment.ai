@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
@@ -6,7 +6,7 @@ interface LayoutWrapperProps {
   children?: ReactNode;
 }
 
-const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
+const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ }) => {
   return (
     <div className="d-flex vh-100">
       {/* Sidebar */}

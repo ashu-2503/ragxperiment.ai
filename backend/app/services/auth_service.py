@@ -62,4 +62,10 @@ class AuthService:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
         
         token = create_access_token(subject=user.id)
-        return {"access_token": token, "token_type": "bearer"}
+        return {"token": token,
+                "user": {
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email
+                }
+            }
