@@ -4,7 +4,7 @@ import { ToasterService } from "../../components/common/Toastr";
 import { useNavigate } from "react-router-dom";
 import logImg from "../../assets/images/log.svg";
 import registerImg from "../../assets/images/register.svg";
-import "../../styles/auth.css";
+import "./auth.css";
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
@@ -25,11 +25,15 @@ const Auth: React.FC = () => {
   const [loginLoading, setLoginLoading] = useState(false);
 
   // --- PASSWORD TOGGLE ---
-  const [inputTypeSignup, setInputTypeSignup] = useState("password");
+  const [inputTypeSignupPassword, setInputTypeSignupPassword] = useState("password");
+  const [inputTypeSignupConfirm, setInputTypeSignupConfirm] = useState("password");
   const [inputTypeLogin, setInputTypeLogin] = useState("password");
 
   const togglePasswordSignup = () =>
-    setInputTypeSignup(prev => (prev === "password" ? "text" : "password"));
+    setInputTypeSignupPassword(prev => (prev === "password" ? "text" : "password"));
+
+  const toggleConfirmPasswordSignup = () =>
+    setInputTypeSignupConfirm(prev => (prev === "password" ? "text" : "password"));
 
   const togglePasswordLogin = () =>
     setInputTypeLogin(prev => (prev === "password" ? "text" : "password"));
@@ -144,7 +148,7 @@ const Auth: React.FC = () => {
                 required
               />
               <i
-                className="fas fa-eye"
+                className="fas fa-eye eye-icon"
                 style={{ cursor: "pointer" }}
                 onClick={togglePasswordLogin}
               />
@@ -184,14 +188,14 @@ const Auth: React.FC = () => {
             <div className="input-field">
               <i className="fas fa-lock" />
               <input
-                type={inputTypeSignup}
+                type={inputTypeSignupPassword}
                 placeholder="Password"
                 value={signupPassword}
                 onChange={(e) => setSignupPassword(e.target.value)}
                 required
               />
               <i
-                className="fas fa-eye"
+                className="fas fa-eye eye-icon"
                 style={{ cursor: "pointer" }}
                 onClick={togglePasswordSignup}
               />
@@ -200,11 +204,15 @@ const Auth: React.FC = () => {
             <div className="input-field">
               <i className="fas fa-lock" />
               <input
-                type={inputTypeSignup}
+                type={inputTypeSignupConfirm}
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+              />
+              <i
+                className="fas fa-eye eye-icon"
+                onClick={toggleConfirmPasswordSignup}
               />
             </div>
 
@@ -220,7 +228,7 @@ const Auth: React.FC = () => {
         {/* LEFT PANEL */}
         <div className="panel left-panel">
           <div className="content">
-            
+
             <h3>New here?</h3>
             <p>Sign up and start using the app!</p>
             <button className="btn transparent" onClick={toggleMode}>
