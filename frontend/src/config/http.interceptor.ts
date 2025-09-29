@@ -58,8 +58,13 @@ http.interceptors.response.use(
     }
 
     const status = error.response.status;
+    const originalUrl = error.config?.url || "";
 
     if (status === 401) {
+      // Allow login endpoint to handle its own error
+      if (originalUrl.includes("/auth/login")) {
+        return Promise.reject(error);
+      }
       // Token expired or unauthorized
       ToasterService.typeError("Unauthorized. Please login again.");
       localStorage.clear();

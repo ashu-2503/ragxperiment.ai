@@ -3,8 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
 // Lazy load pages
-const Login = lazy(() => import("../modules/auth/login"));
-const Signup = lazy(() => import("../modules/auth/signup"));
+const Auth = lazy(() => import("../modules/auth/auth"));
 const Dashboard = lazy(() => import("../modules/pages/Dashboard"));
 
 export function AppRoutes() {
@@ -12,11 +11,10 @@ export function AppRoutes() {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/auth" element={<Auth />} />
 
         {/* Protected dashboard route */}
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/dashboard/*"
           element={
@@ -27,7 +25,7 @@ export function AppRoutes() {
         />
 
         {/* Default redirect */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     </Suspense>
   );
