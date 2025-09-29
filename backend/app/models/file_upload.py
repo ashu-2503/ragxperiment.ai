@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, LargeBinary, Enum ,ForeignKey
 from app.core.database import Base 
 from app.constant.file_upload_enum import FileStatus
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
+
 
 
 
@@ -22,3 +24,6 @@ class FileUpload(Base):
     )
 
     user = relationship("User", back_populates="files")
+
+    chunks = relationship("FileChunk", back_populates="file", cascade="all, delete-orphan")
+
