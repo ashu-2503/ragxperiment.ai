@@ -47,8 +47,6 @@ class AuthService:
     def signup(self, payload: SignupRequest):
         hashed = hash_password(payload.password)
 
-        if self.repo.get_by_name(payload.name):
-            raise HTTPException(status_code=400, detail="Username already exists")
         if self.repo.get_by_email(payload.email):
             raise HTTPException(status_code=400, detail="Email already exists")
 

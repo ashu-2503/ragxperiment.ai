@@ -32,4 +32,7 @@ def get_db():
 def init_db():
     # import models so they are registered on Base.metadata
     import app.models.user  # noqa: F401
+    from app.models.file_upload import FileUpload
+    print("Initializing database...")
     Base.metadata.create_all(bind=engine)
+    print("Tables created successfully")

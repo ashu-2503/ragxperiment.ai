@@ -1,5 +1,11 @@
 # app/schemas/auth.py
 from pydantic import BaseModel, EmailStr, Field
+from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+from app.models.user import User
+
 
 # Requests
 class SignupRequest(BaseModel):
