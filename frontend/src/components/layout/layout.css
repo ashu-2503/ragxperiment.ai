@@ -1,0 +1,85 @@
+/* Sidebar (desktop) */
+.sidebar {
+  min-height: 100vh;
+  background: #fff;
+  border-right: #dee2e6 1px solid;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Logo */
+.sidebar-logo {
+  width: 90%;
+  height: 70px;
+}
+
+/* Nav */
+.sidebar-nav .nav-link {
+  color: #495057;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-nav .nav-link.active {
+  background: rgba(68, 129, 235, 0.06);
+  color: #2f5bd3;
+  border-radius: 8px;
+}
+
+/* Logout */
+.logout-btn {
+  width: 80%;
+  max-width: 180px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Mobile topbar (hamburger) */
+.mobile-topbar {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+}
+
+/* Small screen offcanvas adjustments */
+.mobile-offcanvas .offcanvas-body {
+  padding: 0;
+}
+
+/* Ensure the sidebar sections spacing inside offcanvas */
+.mobile-offcanvas .sidebar-top,
+.mobile-offcanvas .sidebar-bottom {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.offcanvas-close-wrapper {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Sidebar inner wrapper */
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* fill parent */
+}
+
+/* Allow nav section to scroll but keep logout pinned */
+.sidebar-nav-wrapper {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: 0.5rem;
+}
+
+/* Bottom logout always stays pinned */
+.sidebar-bottom {
+  flex-shrink: 0;
+  background: #fff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+  .main-content {
+    padding: 1rem;
+  }
+}
