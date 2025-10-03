@@ -5,7 +5,14 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.models.user import User
+from typing import List
 
+# Responses
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    model_config = {"from_attributes": True}
 
 # Requests
 class SignupRequest(BaseModel):
@@ -16,14 +23,6 @@ class SignupRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
-
-# Responses
-class UserResponse(BaseModel):
-    id: int
-    name: str
-    email: EmailStr
-
-    model_config = {"from_attributes": True}  # Pydantic v2
 
 class LoginResponse(BaseModel):
     token: str

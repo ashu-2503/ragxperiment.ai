@@ -74,16 +74,13 @@ def parse_and_chunk_file(db: Session, file_id: int, user_id: int):
 
         db_file.status = FileStatus.READY.value
         db.commit()
-        logger.info(f"File {file_id} parsed and chunked into {len(chunks)} chunks.")
 
     except Exception as e:
         db_file.status = FileStatus.FAILED.value
         db.commit()
-        logger.error(f"Failed to parse/chunk file {file_id}: {e}")
 
 
     except Exception as e:
         # Update file status to FAILED on error
         db_file.status = FileStatus.FAILED.value
-        db.commit()
-        logger.error(f"Failed to parse/chunk file {file_id}: {e}")
+        db.commit()   

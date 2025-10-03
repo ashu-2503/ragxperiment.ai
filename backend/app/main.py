@@ -9,6 +9,7 @@ from app.core.database import init_db
 from app.core.global_exceptions import register_exception_handlers
 from app.api.upload_doc.file_upload_route import file_upload_router
 
+
 # -------------------------
 # Initialize logging
 # -------------------------
@@ -47,7 +48,8 @@ app.add_middleware(
 # Include routers
 # -------------------------
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
-app.include_router(file_upload_router, prefix="/files", tags=["files"])
+# File routes (single inclusion, JWT enforced automatically)
+app.include_router(file_upload_router)
 
 # -------------------------
 # Health check

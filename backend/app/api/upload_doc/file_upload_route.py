@@ -1,11 +1,20 @@
-from fastapi import APIRouter, UploadFile, Depends, BackgroundTasks
+from fastapi import APIRouter, UploadFile, Depends, BackgroundTasks,Query
 from sqlalchemy.orm import Session
 from app.services.file_upload_service import create_file_upload
 from app.services.file_parser_service import parse_and_chunk_file
-from app.core.database import get_db
 from app.api.auth.dependencies import get_current_user
+from app.schemas.file_upload import PaginatedFileResponse
+from app.services.file_upload_service import create_file_upload,get_all_files
+from app.core.database import get_db
+
 
 file_upload_router = APIRouter()
+
+file_upload_router = APIRouter(
+    prefix="/files",               # All endpoints start with /files
+    tags=["files"],
+    dependencies=[Depends(get_current_user)]  # JWT enforced for all endpoints
+)
 
 @file_upload_router.post("/upload")
 def upload_file(
@@ -22,7 +31,15 @@ def upload_file(
 
     return {"file_id": db_file.id, "status": "parsing scheduled"}
 
-# @file_upload_router.get("/files/{file_id}/status")
-# def get_file_status(file_id: int, db: Session = Depends(get_db)):
-#     db_file = db.query(FileUpload).filter(FileUpload.id == file_id).first()
-#     return {"file_id": file_id, "status": db_file.status}
+@file_upload_router.get("/files", response_model=PaginatedFileResponse)
+def list_files(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
+    """
+    Return paginated list of uploaded files.
+    - skip: offset (default 0)
+    - limit: page size (default 10, max 100)
+    """
+    return get_all_files(db, skip=skip, limit=limit)
