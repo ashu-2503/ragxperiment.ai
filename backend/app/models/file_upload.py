@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, LargeBinary, Enum ,ForeignKey
+from sqlalchemy import Column, Integer, String, LargeBinary, Enum ,ForeignKey, DateTime, func
 from app.core.database import Base 
 from app.constant.file_upload_enum import FileStatus
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
+
 
 
 
@@ -14,6 +16,10 @@ class FileUpload(Base):
     file_type = Column(String, nullable=False)
     file_size = Column(Integer, nullable=False)
     file_data = Column(LargeBinary, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+
    
     status = Column(
         Enum(FileStatus, values_callable=lambda enum_cls: [e.value for e in enum_cls], name="filestatus"),
@@ -22,3 +28,6 @@ class FileUpload(Base):
     )
 
     user = relationship("User", back_populates="files")
+
+    chunks = relationship("FileChunk", back_populates="file", cascade="all, delete-orphan")
+
