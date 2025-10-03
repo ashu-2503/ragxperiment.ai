@@ -1,24 +1,14 @@
-// src/routes/ProtectedRoute.tsx
 import React, { type JSX } from "react";
 import { Navigate } from "react-router-dom";
 
-// This is a simple JWT check
-const isAuthenticated = () => {
-  const token = localStorage.getItem("jwt_token"); // adjust key if needed
-  return !!token; // returns true if token exists
-};
+const isAuthenticated = () => !!localStorage.getItem("token"); // use "token"
 
-interface ProtectedRouteProps {
-  children: JSX.Element;
-}
+interface Props { children: JSX.Element; }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<Props> = ({ children }) => {
   if (!isAuthenticated()) {
-    // Redirect to login if not authenticated
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth" replace />;
   }
-
-  // Otherwise, render the protected component
   return children;
 };
 
