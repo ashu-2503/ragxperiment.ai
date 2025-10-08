@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     APP_NAME: str = "RAGxperiment AI"
     VERSION: str = "0.1.0"
-    DEBUG: bool = True
+    DEBUG: bool = False  # True if want to log sql queries
 
     # Database
     POSTGRES_USER: str
