@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "20": "^3.1.9",
+    "@fontsource/poppins": "^5.2.7",
     "@fortawesome/fontawesome-free": "^7.0.1",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",

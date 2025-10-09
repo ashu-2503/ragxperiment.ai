@@ -1,70 +1,114 @@
 // src/pages/Knowledgebase.tsx
-import React, { useState } from "react";
-import { Table, Button, Pagination, Spinner } from "react-bootstrap";
+import React, { useState, useEffect, useCallback } from "react";
+import { Table, Button, Pagination, Spinner, ProgressBar } from "react-bootstrap";
+import { fileService } from "../../api/file.service";
+import { ToasterService } from "../../components/common/Toastr";
 import UploadDocumentModal from "../dialogs/uploadDocumentModal";
+import "./knowledgebase.css";
+
+interface Document {
+  id: number;
+  file_name: string;
+  file_type: string;
+  file_size: string;
+  status: "uploaded" | "ready" | "processing" | "failed";
+  progress?: number;
+  created_at: string;
+}
 
 const Knowledgebase: React.FC = () => {
-  const [loading] = useState(false);
-  const [documents] = useState([
-    { id: 1, name: "Sample Document.pdf", type: "PDF", size: "1.2 MB", uploadedAt: "2025-09-30" },
-    { id: 2, name: "Notes.docx", type: "Word", size: "540 KB", uploadedAt: "2025-09-28" },
-    { id: 3, name: "Report.txt", type: "Text", size: "120 KB", uploadedAt: "2025-09-25" },
-    { id: 4, name: "Presentation.pptx", type: "PowerPoint", size: "2.4 MB", uploadedAt: "2025-09-24" },
-    { id: 5, name: "Budget.xlsx", type: "Excel", size: "890 KB", uploadedAt: "2025-09-23" },
-    { id: 6, name: "MeetingNotes.docx", type: "Word", size: "310 KB", uploadedAt: "2025-09-22" },
-    { id: 7, name: "ProjectPlan.pdf", type: "PDF", size: "1.8 MB", uploadedAt: "2025-09-21" },
-    { id: 8, name: "Diagram.vsdx", type: "Visio", size: "2.1 MB", uploadedAt: "2025-09-20" },
-    { id: 9, name: "Invoice.pdf", type: "PDF", size: "450 KB", uploadedAt: "2025-09-19" },
-    { id: 10, name: "Research.docx", type: "Word", size: "1.1 MB", uploadedAt: "2025-09-18" },
-    { id: 11, name: "Summary.txt", type: "Text", size: "90 KB", uploadedAt: "2025-09-17" },
-    { id: 12, name: "Plan.xlsx", type: "Excel", size: "670 KB", uploadedAt: "2025-09-16" },
-    { id: 13, name: "Agenda.docx", type: "Word", size: "220 KB", uploadedAt: "2025-09-15" },
-    { id: 14, name: "Notes2.txt", type: "Text", size: "150 KB", uploadedAt: "2025-09-14" },
-    { id: 15, name: "Contract.pdf", type: "PDF", size: "2.2 MB", uploadedAt: "2025-09-13" },
-    { id: 16, name: "Strategy.pptx", type: "PowerPoint", size: "3.1 MB", uploadedAt: "2025-09-12" },
-    { id: 17, name: "Overview.docx", type: "Word", size: "430 KB", uploadedAt: "2025-09-11" },
-    { id: 18, name: "Checklist.xlsx", type: "Excel", size: "320 KB", uploadedAt: "2025-09-10" },
-    { id: 19, name: "Draft.txt", type: "Text", size: "200 KB", uploadedAt: "2025-09-09" },
-    { id: 20, name: "Invoice2.pdf", type: "PDF", size: "510 KB", uploadedAt: "2025-09-08" },
-    { id: 21, name: "Presentation2.pptx", type: "PowerPoint", size: "2.7 MB", uploadedAt: "2025-09-07" },
-    { id: 22, name: "Report2.docx", type: "Word", size: "780 KB", uploadedAt: "2025-09-06" },
-    { id: 23, name: "Data.xlsx", type: "Excel", size: "1.5 MB", uploadedAt: "2025-09-05" },
-    { id: 24, name: "Notes3.txt", type: "Text", size: "135 KB", uploadedAt: "2025-09-04" },
-    { id: 25, name: "Proposal.pdf", type: "PDF", size: "1.9 MB", uploadedAt: "2025-09-03" },
-  ]);
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const totalPages = Math.ceil(documents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDocs = documents.slice(startIndex, startIndex + itemsPerPage);
-  const totalPages = Math.ceil(documents.length / itemsPerPage);
 
   const handlePageChange = (page: number) => setCurrentPage(page);
 
-  // Upload modal
+  // Modal
   const [showUploadModal, setShowUploadModal] = useState(false);
   const openUploadModal = () => setShowUploadModal(true);
   const closeUploadModal = () => setShowUploadModal(false);
 
+  // ---------------- Fetch documents ----------------
+  const fetchDocuments = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fileService.getAllFiles(0, 100);
+      setDocuments(
+        res.files.map((f: any) => ({
+          ...f,
+          progress: f.status === "processing" ? 0 : 100,
+        }))
+      );
+    } catch (err: any) {
+      ToasterService.typeError("Failed to fetch documents");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchDocuments();
+  }, [fetchDocuments]);
+
+  // ---------------- Polling for processing files ----------------
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const processingDocs = documents.filter((d) => d.status === "processing");
+      if (processingDocs.length === 0) return;
+
+      try {
+        const updates = await Promise.all(
+          processingDocs.map(async (d) => {
+            const statusRes = await fileService.getFileStatus(d.id);
+            return {
+              id: d.id,
+              status: statusRes.status,
+              progress: statusRes.progress,
+            };
+          })
+        );
+
+        setDocuments((prev) =>
+          prev.map((d) => {
+            const updated = updates.find((u) => u.id === d.id);
+            return updated ? { ...d, status: updated.status, progress: updated.progress } : d;
+          })
+        );
+      } catch (err) {
+        console.error("Polling error", err);
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [documents]);
+
+  // ---------------- Upload complete callback ----------------
+  const handleUploadComplete = () => {
+    fetchDocuments();
+  };
+
   return (
-    <div className="ps-5 pe-5 pt-3" style={{ width: "100%", padding: 0 }}>
+    <div className="kb-container">
       {/* Header */}
-      <div className="d-flex justify-content-between align-items-center pt-3 pb-5">
+      <div className="kb-header">
         <div>
-          <h4 className="fw-bold mb-1">Knowledge Base Documents</h4>
-          <p className="text-muted small mb-0">
-            Browse and manage your uploaded documents
-          </p>
+          <h1>Knowledge Base Documents</h1>
+          <p>Browse and manage your uploaded documents</p>
         </div>
-        <Button variant="primary" className="fw-semibold px-4" onClick={openUploadModal}>
+        <Button className="btn-global" onClick={openUploadModal}>
           + Add Document
         </Button>
       </div>
 
       <hr />
 
-      {/* Loading / Empty / Table */}
+      {/* Loading / Empty States */}
       {loading ? (
         <div className="text-center py-5">
           <Spinner animation="border" variant="primary" />
@@ -73,38 +117,56 @@ const Knowledgebase: React.FC = () => {
       ) : documents.length === 0 ? (
         <div className="text-center py-5">
           <p className="text-muted">No documents found. Upload one to get started.</p>
-          <Button variant="outline-primary" onClick={openUploadModal}>Add Document</Button>
+          <Button className="btn-primary-global" onClick={openUploadModal}>
+            Add Document
+          </Button>
         </div>
       ) : (
         <>
-          <Table
-            hover
-            responsive
-            className="align-middle text-nowrap mb-0"
-          >
-            <thead className="table-light">
+          {/* Table */}
+          <Table hover responsive className="align-middle text-nowrap mb-0 kb-table">
+            <thead>
               <tr>
-                <th>S No.</th>
                 <th>File Name</th>
                 <th>Type</th>
                 <th>Size</th>
                 <th>Uploaded At</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {paginatedDocs.map((doc, index) => (
                 <tr key={doc.id}>
-                  <td className="fw-medium">{startIndex + index + 1}</td>
-                  <td>{doc.name}</td>
-                  <td>{doc.type}</td>
-                  <td>{doc.size}</td>
-                  <td>{doc.uploadedAt}</td>
+                  <td>{doc.file_name}</td>
+                  <td>{doc.file_type}</td>
+                  <td>{doc.file_size}</td>
+                  <td>{doc.created_at}</td>
+                  <td style={{ minWidth: 120 }}>
+                    {doc.status === "processing" && (
+                      <ProgressBar
+                        now={doc.progress || 0}
+                        label={`${doc.progress || 0}%`}
+                        striped
+                        animated
+                      />
+                    )}
+                    {doc.status === "uploaded" && (
+                      <span className="text-success">Uploaded</span>
+                    )}
+                    {doc.status === "ready" && (
+                      <span className="text-success">Ready</span>
+                    )}
+                    {doc.status === "failed" && (
+                      <span className="text-danger">Failed</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </Table>
 
-          <div className="d-flex justify-content-end mt-2">
+          {/* Pagination */}
+          <div className="d-flex justify-content-end mt-3">
             <Pagination>
               {Array.from({ length: totalPages }).map((_, idx) => (
                 <Pagination.Item
@@ -119,8 +181,13 @@ const Knowledgebase: React.FC = () => {
           </div>
         </>
       )}
-      {/* Upload Document Modal */}
-      <UploadDocumentModal show={showUploadModal} onHide={closeUploadModal} />
+
+      {/* Upload Modal */}
+      <UploadDocumentModal
+        show={showUploadModal}
+        onHide={closeUploadModal}
+        onUploadComplete={handleUploadComplete}
+      />
     </div>
   );
 };

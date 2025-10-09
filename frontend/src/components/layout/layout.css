@@ -1,85 +1,144 @@
-/* Sidebar (desktop) */
+/* Layout container: full viewport height */
+.layout-container,
+.layout-container > .row {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sidebar */
 .sidebar {
-  min-height: 100vh;
-  background: #fff;
-  border-right: #dee2e6 1px solid;
+  height: 100vh;              /* fill viewport */
+  overflow-y: auto;           /* scroll independently */
+  background: var(--color-background);
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #dee2e6;
+  transition: background var(--transition-medium);
 }
 
-/* Logo */
+/* Sidebar Logo */
 .sidebar-logo {
-  width: 90%;
-  height: 70px;
+  width: 100%;
+  height: 80px;
+  /* object-fit: contain; */
+  /* margin: 1rem auto; */
 }
 
-/* Nav */
+/* Sidebar Nav */
+.sidebar-nav-wrapper {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: var(--space-sm);
+}
+
 .sidebar-nav .nav-link {
-  color: #495057;
+  color: var(--color-text);
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.sidebar-nav .nav-link:hover {
+  background-color: rgba(236, 72, 153, 0.1); /* pink hover */
+  color: var(--color-accent);
 }
 
 .sidebar-nav .nav-link.active {
-  background: rgba(68, 129, 235, 0.06);
-  color: #2f5bd3;
-  border-radius: 8px;
+  background-color: rgba(79, 70, 229, 0.1); /* violet active */
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
 }
 
-/* Logout */
+/* Sidebar Bottom / Logout Button */
+.sidebar-bottom {
+  flex-shrink: 0;
+  padding: var(--space-md);
+  background-color: var(--color-background);
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+  z-index: 10;
+}
+
 .logout-btn {
-  width: 80%;
-  max-width: 180px;
-  display: block;
-  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* max-width: 200px; */
+  padding: 0.6rem 0;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
 }
 
-/* Mobile topbar (hamburger) */
+.logout-btn svg {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  transition: none;
+}
+
+.logout-btn:hover {
+  background-color: #f472b6; /* lighter pink */
+  transform: none;
+}
+
+/* Main Content */
+.main-content {
+  height: 100vh;              /* fill viewport */
+  overflow-y: auto;           /* scroll independently */
+  padding: var(--space-md);
+}
+
+/* Mobile Topbar */
 .mobile-topbar {
   padding: 0.5rem 0.75rem;
-  background: transparent;
+  background: var(--color-background);
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Small screen offcanvas adjustments */
+/* Mobile Offcanvas */
 .mobile-offcanvas .offcanvas-body {
   padding: 0;
 }
 
-/* Ensure the sidebar sections spacing inside offcanvas */
-.mobile-offcanvas .sidebar-top,
-.mobile-offcanvas .sidebar-bottom {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.offcanvas-close-wrapper {
-  border-bottom: 1px solid #dee2e6;
-}
-
-/* Sidebar inner wrapper */
-.sidebar-inner {
+.mobile-offcanvas .sidebar-inner {
   display: flex;
   flex-direction: column;
-  height: 100%; /* fill parent */
+  height: 100%;
 }
 
-/* Allow nav section to scroll but keep logout pinned */
-.sidebar-nav-wrapper {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding-bottom: 0.5rem;
+.mobile-offcanvas .sidebar-bottom {
+  position: absolute;
+  bottom: 1rem;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* Bottom logout always stays pinned */
-.sidebar-bottom {
-  flex-shrink: 0;
-  background: #fff;
+/* Smooth transitions */
+.sidebar-nav .nav-link,
+.logout-btn,
+.mobile-topbar button {
+  transition: all var(--transition-fast) ease-in-out;
 }
 
 /* Responsive tweaks */
 @media (max-width: 767px) {
   .main-content {
-    padding: 1rem;
+    padding: var(--space-sm);
   }
 }

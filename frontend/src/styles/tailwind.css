@@ -1,0 +1,134 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------
+   Base styles using variables
+----------------------------*/
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-heading);
+  margin-bottom: var(--space-sm);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-heading);
+  margin-bottom: var(--space-sm);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-heading);
+  margin-bottom: var(--space-sm);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn-global {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+  border: none;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-md);
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+}
+
+.btn-global:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* --------------------------
+   Cards
+----------------------------*/
+.card {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-medium), transform var(--transition-medium);
+  background-color: var(--color-background);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+/* --------------------------
+   Inputs / Form elements
+----------------------------*/
+input, select, textarea {
+  font-family: var(--font-family-base);
+  border-radius: var(--radius-md);
+  border: 1px solid #d1d5db;
+  padding: var(--space-sm);
+  font-size: var(--font-size-body);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* --------------------------
+   Utility helpers
+----------------------------*/
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+/* --------------------------
+   Lists
+----------------------------*/
+ol, ul {
+  padding-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+/* --------------------------
+   Paragraphs
+----------------------------*/
+p {
+  margin-bottom: var(--space-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+}
