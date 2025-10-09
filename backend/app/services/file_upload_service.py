@@ -16,7 +16,6 @@ def create_file_upload(
 ):
     try:
         file_data = file.file.read()
-        # print(file_data)
         if not file_data:
             raise HTTPException(status_code=400, detail="File is empty")
 
@@ -40,6 +39,8 @@ def create_file_upload(
         logger.error(f"File upload failed for user {getattr(current_user, 'id', 'unknown')}: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
+def get_file_by_id(db: Session, file_id: int):
+    return db.query(FileUpload).filter(FileUpload.id == file_id).first()
 
 def format_file_size(size_bytes: int) -> str:
     """Convert bytes to human-readable format."""
@@ -64,7 +65,7 @@ def get_all_files(db: Session, skip: int = 0, limit: int = 10):
     response_files = []
     for f in files:
         response_files.append(FileUploadResponse(
-            id=f.id,
+            id=f.id,                           #TODO :  Send User name
             file_name=f.file_name,
             file_type=simplify_file_type(f.file_type),
             file_size=format_file_size(f.file_size),

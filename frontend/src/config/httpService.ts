@@ -26,6 +26,17 @@ class HttpService {
     }
   }
 
+  async postFormData(endpoint: string, formData: FormData) {
+  try {
+    const response = await http.post(endpoint, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  } catch (err: any) {
+    return this.handleError(err);
+  }
+}
+
   async put(endpoint: string, body: any) {
     try {
       const response = await http.put(endpoint, body);

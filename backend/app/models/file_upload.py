@@ -4,9 +4,6 @@ from app.constant.file_upload_enum import FileStatus
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import relationship
 
-
-
-
 class FileUpload(Base):
     __tablename__ = "file_uploads"
 
@@ -15,7 +12,7 @@ class FileUpload(Base):
     file_name = Column(String, nullable=False)
     file_type = Column(String, nullable=False)
     file_size = Column(Integer, nullable=False)
-    file_data = Column(LargeBinary, nullable=False)
+    file_data = Column(LargeBinary, nullable=False)        # TODO : Move to S3
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -26,6 +23,9 @@ class FileUpload(Base):
         default=FileStatus.UPLOADED.value,
         nullable=False,
     )
+    
+    total_chunks = Column(Integer, default=0, nullable=False)
+    processed_chunks = Column(Integer, default=0, nullable=False)
 
     user = relationship("User", back_populates="files")
 

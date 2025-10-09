@@ -14,5 +14,9 @@ export class PathConfig {
   static LOGIN_USER = `${PathConfig.API_ENDPOINT}/auth/login`;
   static SIGNUP_USER = `${PathConfig.API_ENDPOINT}/auth/signup`;
 
+  // Inside PathConfig.ts
+  static FILE_UPLOAD = `${PathConfig.API_ENDPOINT}/files/upload`;
+  static FILE_STATUS = (fileId: number) => `${PathConfig.API_ENDPOINT}/files/${fileId}/status`;
+  static FILE_LIST = `${PathConfig.API_ENDPOINT}/files/files`;
 
 }

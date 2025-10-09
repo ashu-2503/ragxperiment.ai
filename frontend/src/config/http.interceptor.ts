@@ -23,7 +23,7 @@ http.interceptors.request.use(
       cfg.headers = new AxiosHeaders(cfg.headers);
     }
 
-    const token = localStorage.getItem("jwt_token");
+    const token = localStorage.getItem("token");
     const tenantId = localStorage.getItem("tenant");
 
     if (token) {
