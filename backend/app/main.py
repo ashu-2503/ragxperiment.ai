@@ -2,12 +2,14 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.auth import routes as auth_routes
+from app.api.auth import auth_routes as auth_routes
 from app.core.config import settings
 from app.core.logging import setup_logging
 from app.core.database import init_db
 from app.core.global_exceptions import register_exception_handlers
 from app.api.upload_doc.file_upload_route import file_upload_router
+from app.api.dashboard.dashboard_routes import dashboard_router
+
 
 
 # -------------------------
@@ -50,6 +52,7 @@ app.add_middleware(
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
 # File routes (single inclusion, JWT enforced automatically)
 app.include_router(file_upload_router)
+app.include_router(dashboard_router)
 
 # -------------------------
 # Health check
