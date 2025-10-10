@@ -1,8 +1,8 @@
+from app.common.auth_dependencies import get_current_user
 from fastapi import APIRouter, HTTPException, UploadFile, Depends, BackgroundTasks,Query
 from sqlalchemy.orm import Session
 from app.services.file_upload_service import create_file_upload, get_file_by_id
 from app.services.file_parser_service import parse_and_chunk_file
-from app.api.auth.dependencies import get_current_user
 from app.schemas.file_upload import PaginatedFileResponse
 from app.services.file_upload_service import create_file_upload,get_all_files
 from app.core.database import get_db

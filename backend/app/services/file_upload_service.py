@@ -2,7 +2,7 @@ from fastapi import UploadFile, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.models.file_upload import FileUpload, FileStatus
 from app.core.database import get_db
-from app.api.auth.dependencies import get_current_user
+from app.common.auth_dependencies import get_current_user
 from app.constant.file_upload_enum import FileStatus
 from app.schemas.file_upload import FileUploadResponse, PaginatedFileResponse
 import logging
