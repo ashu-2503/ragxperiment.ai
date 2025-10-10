@@ -4,6 +4,7 @@ import { Row, Col, Card, Button } from "react-bootstrap";
 import { FaBook, FaBookOpen, FaComments, FaRobot, FaUpload } from "react-icons/fa";
 import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
+import UploadDocumentModal from "../dialogs/uploadDocumentModal";
 
 interface StatCardProps {
   icon: JSX.Element;
@@ -27,10 +28,14 @@ interface QuickActionCardProps {
   icon: JSX.Element;
   title: string;
   description: string;
+  onClick?: () => void;
 }
 
-const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description }) => (
-  <Card className="quick-action-card">
+const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
+  <Card
+    className={`quick-action-card ${onClick ? "clickable" : ""}`}
+    onClick={onClick}
+  >
     <div className="icon">{icon}</div>
     <h6>{title}</h6>
     <p className="text-muted">{description}</p>
@@ -90,6 +95,7 @@ const Dashboard: React.FC = () => {
             icon={<FaBook color="var(--color-secondary)" />}
             title="Create Knowledge Base"
             description="Build a new AI-powered knowledge repository."
+            onClick={() => navigate("/knowledge")}
           />
         </Col>
         <Col md={4}>
@@ -97,6 +103,7 @@ const Dashboard: React.FC = () => {
             icon={<FaUpload color="var(--color-secondary)" />}
             title="Upload Documents"
             description="Add PDF, DOCX, MD or TXT files to your knowledge bases."
+            onClick={openUploadModal}
           />
         </Col>
         <Col md={4}>
@@ -104,6 +111,7 @@ const Dashboard: React.FC = () => {
             icon={<FaRobot color="var(--color-accent)" />}
             title="Start Chatting"
             description="Get instant answers from your knowledge with AI."
+            onClick={() => navigate("/chat")}
           />
         </Col>
       </Row>
@@ -117,6 +125,16 @@ const Dashboard: React.FC = () => {
           <li>Start chatting</li>
         </ol>
       </Card>
+
+      {/* Upload Modal */}
+      <UploadDocumentModal
+        show={showUploadModal}
+        onHide={closeUploadModal}
+        onUploadComplete={() => {
+          closeUploadModal();
+          navigate("/knowledge");
+        }}
+      />
     </div>
   );
 };
