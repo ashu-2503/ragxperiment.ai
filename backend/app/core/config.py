@@ -1,5 +1,5 @@
 from typing import List
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     APP_NAME: str = "RAGxperiment AI"
@@ -17,14 +17,22 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 1 day
-
-    # Chroma / OpenAI
-    OPENAI_API_KEY: str
-
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173"]
 
-    class Config:
-        env_file = ".env"
+    # Hugging Face / LLaMA / Chroma
+    huggingface_model_repo: str
+    huggingface_model_file: str
+    huggingface_api_token: str
+    llama_model_path: str
+    llama_n_ctx: int
+    llama_threads: int
+    chroma_dir: str
+    chroma_collection: str
+    embedding_model: str
+
+    model_config = SettingsConfigDict(
+        env_file=".env"
+    )
 
 settings = Settings()

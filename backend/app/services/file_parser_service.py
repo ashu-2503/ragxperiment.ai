@@ -8,6 +8,7 @@ from io import BytesIO
 from app.models.file_chunk import FileChunk
 from app.models.file_upload import FileUpload
 from app.constant.file_upload_enum import FileStatus
+from app.services.vector_store_service import embed_and_store_chunks
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +94,8 @@ def parse_and_chunk_file(file_id: int, user_id: int):
 
         chunks = chunk_text(text)
         save_chunks_to_db(db, file_id, user_id, chunks)
+
+        embed_and_store_chunks(file_id, user_id, chunks)
 
         # mark ready
         db_file.status = FileStatus.READY.value

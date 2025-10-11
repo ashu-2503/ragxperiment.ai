@@ -20,3 +20,12 @@ logs/
 .vscode/
 .idea/
 .DS_Store
+
+# ──────────────────────────────
+# 🗄️ ChromaDB Persistent Files
+# ──────────────────────────────
+# Ignore all vector database binaries and SQLite DBs
+chroma_db/
+backend/chroma_db/
+*.sqlite3
+*.bin
