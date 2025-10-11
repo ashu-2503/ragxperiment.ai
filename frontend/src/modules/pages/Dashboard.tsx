@@ -1,10 +1,12 @@
 // src/modules/pages/Dashboard.tsx
-import React, { useState, type JSX } from "react";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import React, { useEffect, useState, type JSX } from "react";
+import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
 import { FaBook, FaBookOpen, FaComments, FaRobot, FaUpload } from "react-icons/fa";
 import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
 import UploadDocumentModal from "../dialogs/uploadDocumentModal";
+import { dashboardService } from "../../api/dashboard.serrvice";
+import { ToasterService } from "../../components/common/Toastr";
 
 interface StatCardProps {
   icon: JSX.Element;
@@ -45,10 +47,29 @@ const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, descript
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
+  const [kbCount, setKbCount] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
   // Modal
   const [showUploadModal, setShowUploadModal] = useState(false);
   const openUploadModal = () => setShowUploadModal(true);
   const closeUploadModal = () => setShowUploadModal(false);
+
+  //Knowledgebase Count
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const data = await dashboardService.getKnowledgebaseCount();
+        setKbCount(data.count);
+      } catch (err) {
+        ToasterService.typeError("Failed to load dashboard stats.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
 
   return (
     <div className="dashboard-container">
@@ -72,11 +93,17 @@ const Dashboard: React.FC = () => {
       {/* Stats */}
       <Row className="mb-4">
         <Col md={6}>
-          <StatCard
-            icon={<FaBookOpen size={36} color="var(--color-secondary)" />}
-            count={3}
-            label="Knowledge Bases"
-          />
+          {loading ? (
+            <Card className="stat-card mb-3 text-center py-4">
+              <Spinner animation="border" variant="primary" size="sm" /> Loading...
+            </Card>
+          ) : (
+            <StatCard
+              icon={<FaBookOpen size={36} color="var(--color-secondary)" />}
+              count={kbCount ?? 0}
+              label="Knowledge Bases"
+            />
+          )}
         </Col>
         <Col md={6}>
           <StatCard
