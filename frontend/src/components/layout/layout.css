@@ -1,6 +1,5 @@
 /* Layout container: full viewport height */
-.layout-container,
-.layout-container > .row {
+.layout-container {
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -54,7 +53,7 @@
 }
 
 /* Sidebar Bottom / Logout Button */
-.sidebar-bottom {
+/* .sidebar-bottom {
   flex-shrink: 0;
   padding: var(--space-md);
   background-color: var(--color-background);
@@ -64,32 +63,28 @@
   text-align: center;
   box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
   z-index: 10;
-}
+} */
 
+.sidebar-bottom
 .logout-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* max-width: 200px; */
   padding: 0.6rem 0;
+  margin-bottom: 4px;
   font-size: 0.95rem;
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-md);
-  background-color: var(--color-accent);
+  /* background-color: var(--color-accent); */
   color: #fff;
   border: none;
-  transition: background-color 0.2s ease-in-out;
+  /* transition: background-color 0.2s ease-in-out; */
 }
 
-.logout-btn svg {
-  vertical-align: middle;
-  margin-right: 0.5rem;
-  transition: none;
-}
-
+.sidebar-bottom
 .logout-btn:hover {
-  background-color: #f472b6; /* lighter pink */
+  background-color: #ff0000;
   transform: none;
 }
 

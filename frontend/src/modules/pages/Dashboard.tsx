@@ -1,9 +1,12 @@
 // src/modules/pages/Dashboard.tsx
-import React, { useState, type JSX } from "react";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import React, { useEffect, useState, type JSX } from "react";
+import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
 import { FaBook, FaBookOpen, FaComments, FaRobot, FaUpload } from "react-icons/fa";
 import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
+import UploadDocumentModal from "../dialogs/uploadDocumentModal";
+import { dashboardService } from "../../api/dashboard.serrvice";
+import { ToasterService } from "../../components/common/Toastr";
 
 interface StatCardProps {
   icon: JSX.Element;
@@ -27,10 +30,14 @@ interface QuickActionCardProps {
   icon: JSX.Element;
   title: string;
   description: string;
+  onClick?: () => void;
 }
 
-const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description }) => (
-  <Card className="quick-action-card">
+const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
+  <Card
+    className={`quick-action-card ${onClick ? "clickable" : ""}`}
+    onClick={onClick}
+  >
     <div className="icon">{icon}</div>
     <h6>{title}</h6>
     <p className="text-muted">{description}</p>
@@ -40,15 +47,34 @@ const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, descript
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
+  const [kbCount, setKbCount] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
   // Modal
   const [showUploadModal, setShowUploadModal] = useState(false);
   const openUploadModal = () => setShowUploadModal(true);
   const closeUploadModal = () => setShowUploadModal(false);
 
+  //Knowledgebase Count
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const data = await dashboardService.getKnowledgebaseCount();
+        setKbCount(data.count);
+      } catch (err) {
+        ToasterService.typeError("Failed to load dashboard stats.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
+
   return (
     <div className="dashboard-container">
       {/* Hero Section */}
-      <Card className="card mb-4">
+      <Card className="hero-card mb-4">
         <Row className="align-items-center">
           <Col>
             <h2>Knowledge Assistant</h2>
@@ -57,7 +83,7 @@ const Dashboard: React.FC = () => {
             </p>
           </Col>
           <Col xs="auto">
-            <Button className="btn-global" onClick={() => navigate("/knowledge")}>
+            <Button className="hero-button" onClick={() => navigate("/knowledge")}>
               + Add Knowledgebase
             </Button>
           </Col>
@@ -67,11 +93,17 @@ const Dashboard: React.FC = () => {
       {/* Stats */}
       <Row className="mb-4">
         <Col md={6}>
-          <StatCard
-            icon={<FaBookOpen size={36} color="var(--color-secondary)" />}
-            count={3}
-            label="Knowledge Bases"
-          />
+          {loading ? (
+            <Card className="stat-card mb-3 text-center py-4">
+              <Spinner animation="border" variant="primary" size="sm" /> Loading...
+            </Card>
+          ) : (
+            <StatCard
+              icon={<FaBookOpen size={36} color="var(--color-secondary)" />}
+              count={kbCount ?? 0}
+              label="Knowledge Bases"
+            />
+          )}
         </Col>
         <Col md={6}>
           <StatCard
@@ -90,6 +122,7 @@ const Dashboard: React.FC = () => {
             icon={<FaBook color="var(--color-secondary)" />}
             title="Create Knowledge Base"
             description="Build a new AI-powered knowledge repository."
+            onClick={() => navigate("/knowledge")}
           />
         </Col>
         <Col md={4}>
@@ -97,6 +130,7 @@ const Dashboard: React.FC = () => {
             icon={<FaUpload color="var(--color-secondary)" />}
             title="Upload Documents"
             description="Add PDF, DOCX, MD or TXT files to your knowledge bases."
+            onClick={openUploadModal}
           />
         </Col>
         <Col md={4}>
@@ -104,6 +138,7 @@ const Dashboard: React.FC = () => {
             icon={<FaRobot color="var(--color-accent)" />}
             title="Start Chatting"
             description="Get instant answers from your knowledge with AI."
+            onClick={() => navigate("/chat")}
           />
         </Col>
       </Row>
@@ -117,6 +152,16 @@ const Dashboard: React.FC = () => {
           <li>Start chatting</li>
         </ol>
       </Card>
+
+      {/* Upload Modal */}
+      <UploadDocumentModal
+        show={showUploadModal}
+        onHide={closeUploadModal}
+        onUploadComplete={() => {
+          closeUploadModal();
+          navigate("/knowledge");
+        }}
+      />
     </div>
   );
 };

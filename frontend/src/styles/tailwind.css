@@ -57,26 +57,6 @@ a {
   transition: all var(--transition-medium);
 }
 
-.btn-global:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-}
-
-/* --------------------------
-   Cards
-----------------------------*/
-.card {
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  transition: box-shadow var(--transition-medium), transform var(--transition-medium);
-  background-color: var(--color-background);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
-}
-
 /* --------------------------
    Inputs / Form elements
 ----------------------------*/
@@ -87,12 +67,6 @@ input, select, textarea {
   padding: var(--space-sm);
   font-size: var(--font-size-body);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }
 
 /* --------------------------
