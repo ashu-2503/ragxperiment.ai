@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       {/* Hero Section */}
-      <Card className="card mb-4">
+      <Card className="hero-card mb-4">
         <Row className="align-items-center">
           <Col>
             <h2>Knowledge Assistant</h2>
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
             </p>
           </Col>
           <Col xs="auto">
-            <Button className="btn-global" onClick={() => navigate("/knowledge")}>
+            <Button className="hero-button" onClick={() => navigate("/knowledge")}>
               + Add Knowledgebase
             </Button>
           </Col>

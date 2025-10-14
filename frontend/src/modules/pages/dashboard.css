@@ -1,79 +1,81 @@
 /* Container */
 .dashboard-container {
-  margin: var(--space-xl) var(--space-lg) 0;
   font-family: var(--font-family-base);
-  /* background-color: #f9f9ff;  */
-  padding: var(--space-lg);
+  padding: var(--space-md);
   border-radius: var(--radius-lg);
 }
 
 /* Hero Card */
+.dashboard-container
 .hero-card {
   background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
   color: #fff;
-  padding: var(--space-lg);
+  padding: var(--space-xl);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   margin-bottom: var(--space-lg);
   transition: transform var(--transition-medium), box-shadow var(--transition-medium);
 }
 
-.hero-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-}
-
+.dashboard-container
 .hero-card h2 {
   font-size: var(--font-size-h2);
   margin-bottom: var(--space-sm);
 }
 
+.dashboard-container
 .hero-card p {
   font-size: var(--font-size-body);
   color: rgba(255, 255, 255, 0.85);
 }
 
-.hero-card button {
-  border-radius: var(--radius-md);
-  padding: 0.5rem 1.25rem;
+.dashboard-container
+.hero-button {
+  width: auto;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+  border: none;
+  font-family: var(--font-family-base);
   font-weight: var(--font-weight-medium);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform var(--transition-fast), background var(--transition-fast);
-}
-
-.hero-card button:hover {
-  transform: translateY(-2px);
-  background-color: var(--color-accent);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-md);
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--transition-medium);
 }
 
 /* Stat Cards */
+.dashboard-container
 .stat-card {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-  padding: var(--space-md);
+  padding: var(--space-xl);
   background-color: #fff;
+  margin-bottom: var(--space-md);
 }
 
-.stat-card:hover {
+/* .stat-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
-}
+} */
 
+.dashboard-container
 .stat-card h3 {
   font-size: var(--font-size-h3);
   margin: 0;
 }
 
+.dashboard-container
 .stat-card .text-muted {
   font-size: var(--font-size-small);
   color: var(--color-muted);
 }
 
 /* Quick Action Cards */
+.dashboard-container
 .quick-action-card {
   border-radius: var(--radius-md);
-  padding: var(--space-md);
+  padding: var(--space-xl);
   text-align: center;
   background-color: #fff;
   box-shadow: var(--shadow-card);
@@ -81,11 +83,14 @@
   margin-bottom: var(--space-md);
 }
 
+.dashboard-container
 .quick-action-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
+  cursor: pointer;
 }
 
+.dashboard-container
 .quick-action-card .icon {
   font-size: 36px;
   margin-bottom: var(--space-sm);
@@ -100,13 +105,14 @@
   color: transparent;
 }
 
-
+.dashboard-container
 .quick-action-card h6 {
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-xs);
   color: var(--color-heading);
 }
 
+.dashboard-container
 .quick-action-card p {
   font-size: var(--font-size-small);
   color: var(--color-muted);
@@ -125,6 +131,7 @@
 }
 
 /* Optional: slightly brighten gradient text icon on hover */
+.dashboard-container
 .quick-action-card.clickable:hover .icon {
   background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
   -webkit-background-clip: text;
@@ -133,8 +140,9 @@
 }
 
 /* How It Works Card */
+.dashboard-container
 .how-it-works-card {
-  padding: var(--space-md);
+  padding: var(--space-lg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   background-color: #fff;
@@ -142,10 +150,10 @@
   transition: transform var(--transition-medium), box-shadow var(--transition-medium);
 }
 
-.how-it-works-card:hover {
+/* .how-it-works-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
-}
+} */
 
 /* Section Titles */
 h5 {
@@ -157,7 +165,8 @@ h5 {
 }
 
 /* Lists */
-ol li {
+.dashboard-container
+li {
   margin-bottom: var(--space-sm);
   color: var(--color-text);
 }
