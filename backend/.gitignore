@@ -1,0 +1,31 @@
+# Python / backend specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+.env
+.env.local
+
+# Poetry
+poetry.lock
+
+# Logs
+logs/
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# ──────────────────────────────
+# 🗄️ ChromaDB Persistent Files
+# ──────────────────────────────
+# Ignore all vector database binaries and SQLite DBs
+chroma_db/
+backend/chroma_db/
+*.sqlite3
+*.bin

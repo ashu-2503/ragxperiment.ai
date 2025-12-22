@@ -1,0 +1,44 @@
+/* src/styles/variables.css */
+
+/* Colors */
+:root {
+  --color-primary: #4F46E5;    /* Violet */
+  --color-secondary: #3B82F6;  /* Blue */
+  --color-accent: #EC4899;     /* Pink */
+  --color-background: #FFFFFF; /* White */
+  --color-heading: #1F2937;    /* Dark Gray */
+  --color-text: #374151;       /* Medium Gray */
+  --color-muted: #6B7280;      /* For secondary text */
+
+  /* Shadows */
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Typography */
+  --font-family-base: 'Poppins', sans-serif;
+  --font-size-h1: 24px;
+  --font-size-h2: 20px;
+  --font-size-h3: 18px;
+  --font-size-body: 14px;
+  --font-size-small: 12px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Transition */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-medium: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
+}

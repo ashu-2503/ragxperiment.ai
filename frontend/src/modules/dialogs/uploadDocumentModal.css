@@ -1,0 +1,99 @@
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.upload-area {
+    border: 2px dashed #D0D0D0;
+    border-radius: 12px;
+    padding: 40px 32px;
+    text-align: center;
+    margin-bottom: 32px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.upload-area.active {
+    border-color: #4c6ef5;
+    background: #f0f4ff;
+}
+
+.upload-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.upload-subtitle {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 16px;
+}
+
+.select-button {
+    background: white;
+    border: 1px solid #D0D0D0;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.select-button:hover {
+    background: #f9f9f9;
+    border-color: #999;
+}
+
+.file-table th {
+    background: #f8f9fa;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.cancel-button {
+    background: white;
+    border: 1px solid #D0D0D0;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background: #f9f9f9;
+    border-color: #999;
+}
+
+.upload-button {
+    background: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.upload-button:hover {
+    background: #333;
+}

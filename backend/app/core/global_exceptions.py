@@ -1,0 +1,56 @@
+from fastapi import Request, FastAPI
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from loguru import logger
+
+def register_exception_handlers(app: FastAPI):
+    """
+    Register global exception handlers for the FastAPI app.
+    """
+
+    @app.exception_handler(StarletteHTTPException)
+    async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+        """
+        Handles all HTTP exceptions (raised via HTTPException).
+        """
+        logger.error(f"HTTP Exception: {exc.detail}")
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"success": False, "message": exc.detail},
+        )
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(request: Request, exc: RequestValidationError):
+        """
+        Handles request body/parameter validation errors.
+        Converts non-serializable inputs (like UploadFile) to string.
+        """
+        logger.error(f"Validation Error: {exc.errors()}")
+        errors = []
+        for e in exc.errors():
+            errors.append({
+                "loc": e.get("loc"),
+                "msg": e.get("msg"),
+                "type": e.get("type"),
+                "input": str(e.get("input")) if e.get("input") else None
+            })
+        return JSONResponse(
+            status_code=422,
+            content={
+                "success": False,
+                "message": "Validation error",
+                "errors": errors
+            }
+        )
+
+    @app.exception_handler(Exception)
+    async def generic_exception_handler(request: Request, exc: Exception):
+        """
+        Handles all uncaught exceptions.
+        """
+        logger.exception(f"Unhandled Exception: {exc}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": "Internal Server Error"},
+        )

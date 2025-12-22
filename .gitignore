@@ -1,0 +1,19 @@
+# ------------------------------
+# Root / monorepo
+# ------------------------------
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Misc
+*.bak
+*.tmp
+*.env.local
